@@ -2,19 +2,41 @@ import pygame
 
 from constants import *
 
+from player import *
+
 
 def main():
-    clock = pygame.time.Clock()
-    dt = 0
+    #start pygame
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
+    dt = 0
+    
+    # Player Location
+    x = SCREEN_WIDTH / 2
+    y = SCREEN_HEIGHT / 2
+
+    #player
+    player = Player(x, y)
+    
+    #game
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        pygame.Surface.fill(screen,(0, 0, 0))
+        
+        #fill screen
+        screen.fill((0, 0, 0))
+
+        #Draw player
+        player.draw(screen)
+
+        #update display
         pygame.display.flip()
+        
+        #frame rate
         dt = clock.tick(60) / 1000
+
 
 
 print("Starting asteroids!")
