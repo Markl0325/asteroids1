@@ -42,16 +42,26 @@ def main():
         updatable.update(dt)
 
         #shot
-        new_shot = player.update(dt)
-        if new_shot:
-            shots.add(new_shot)
+        if pygame.key.get_pressed()[pygame.K_SPACE]:
+            new_shot = player.shoot()
+            if new_shot:  # If the shoot method successfully creates a Shot
+                shots.add(new_shot)
+
+        #shoot collision
+        for shot in shots:
+            for asteroid in asteroids:
+                distance = (shot.position - asteroid.position).length()
+                if distance < (shot.radius + asteroid.radius):
+                    asteroid.kill()
+                    shot.kill()
+            
 
         #collision check
         for asteroid in asteroids:
             if player.collide(asteroid):
                 print("Game over!")
                 sys.exit()
-       
+
         #fill screen
         screen.fill((0, 0, 0))
 

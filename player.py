@@ -5,7 +5,7 @@ import pygame
 from circleshape import CircleShape
 
 #imports player attributes
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED
+from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
 
 from Shots import Shot
 
@@ -16,6 +16,7 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.rate_limit = 0
 
 
     #draw player
@@ -45,9 +46,12 @@ class Player(CircleShape):
 
     #player shoot
     def shoot(self):
-        direction = pygame.Vector2(0, 1).rotate(self.rotation)
-        velocity = direction * PLAYER_SHOOT_SPEED
-        return Shot(self.position.x, self.position.y, velocity)
+        if self.rate_limit <= 0:
+            direction = pygame.Vector2(0, 1).rotate(self.rotation)
+            velocity = direction * PLAYER_SHOOT_SPEED
+            self.rate_limit = PLAYER_SHOOT_COOLDOWN
+            return Shot(self.position.x, self.position.y, velocity)
+        return None       
 
 
 
@@ -67,8 +71,9 @@ class Player(CircleShape):
         if keys[pygame.K_s]:
             self.move(-dt)
         
-        if keys[pygame.K_SPACE]:
-            self.shoot()
+    
+        
+        self.rate_limit = max(0, self.rate_limit -dt)
 
 
  
