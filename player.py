@@ -5,7 +5,7 @@ import pygame
 from circleshape import CircleShape
 
 #imports player attributes
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
+from constants import *
 
 from Shots import Shot
 

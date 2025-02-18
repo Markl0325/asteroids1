@@ -52,7 +52,7 @@ def main():
             for asteroid in asteroids:
                 distance = (shot.position - asteroid.position).length()
                 if distance < (shot.radius + asteroid.radius):
-                    asteroid.kill()
+                    asteroid.split()
                     shot.kill()
             
 
